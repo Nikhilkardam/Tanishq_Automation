@@ -167,3 +167,10 @@ else:
     perform_login()
 
 click_logo()
+
+
+# ----> CLicking on live test button <---
+WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.XPATH, "//a[contains(., 'Live Test')]"))
+).click()
+time.sleep(10)
