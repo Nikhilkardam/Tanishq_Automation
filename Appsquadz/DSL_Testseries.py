@@ -173,4 +173,35 @@ click_logo()
 WebDriverWait(driver, 10).until(
     EC.element_to_be_clickable((By.XPATH, "//a[contains(., 'Live Test')]"))
 ).click()
+time.sleep(3)
+
+wait = WebDriverWait(driver, 10)
+
+# Scroll through the screen slowly to ensure all visible items load
+driver.execute_script("window.scrollTo(0, 0);")
+time.sleep(1)
+
+driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+time.sleep(1)
+
+driver.execute_script("window.scrollTo(0, 0);")
+time.sleep(1)
+
+# Get all Attempt Now buttons
+buttons = wait.until(
+    EC.presence_of_all_elements_located((By.XPATH, "//button[normalize-space()='Attempt Now']"))
+)
+
+# Loop: find the FIRST visible button
+for btn in buttons:
+    try:
+        if btn.is_displayed() and btn.is_enabled():
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
+            time.sleep(0.5)
+            btn.click()
+            print("Clicked first visible 'Attempt Now' button")
+            break
+    except:
+        continue
+
 time.sleep(10)
